@@ -94,6 +94,7 @@ const Home: NextPage = () => {
                 textAlign: "center",
                 width: "100%",
                 minWidth: "100%",
+                backgroundColor: "#5f2eea",
               }}
             />
 
