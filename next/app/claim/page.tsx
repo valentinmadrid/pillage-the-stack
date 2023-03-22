@@ -89,7 +89,7 @@ const Claim: NextPage = () => {
                 {questions.map((question: any) => {
                   return (
                     <div key={question.id}>
-                      <Link href={"/stackexchange_url"}>
+                      <Link href={question.question_url}>
                         <p>{question.question_id}</p>
                       </Link>
                     </div>
@@ -97,7 +97,7 @@ const Claim: NextPage = () => {
                 })}
                 <button
                   onClick={handleClaim}
-                  className="mt-4 mb-4 py-2 px-4 text-center rounded-lg text-white bg-purple-500 hover:bg-purple-600"
+                  className="mt-4 py-2 px-4 text-center rounded-lg text-white bg-purple-500 hover:bg-purple-600"
                 >
                   Claim
                 </button>
