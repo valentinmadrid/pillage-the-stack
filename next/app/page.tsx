@@ -75,7 +75,7 @@ const Home: NextPage = () => {
 
     if (response.ok) {
       const data = await response.json();
-      router.push("/confirmed");
+      router.push("/claim");
     } else {
       console.error("Error:", response.statusText);
     }
@@ -114,12 +114,19 @@ const Home: NextPage = () => {
             </button>
           </>
         ) : (
-          <button
-            className="w-full py-2 px-4 rounded-lg text-white bg-blue-500 hover:bg-blue-600 items-center text-center"
-            onClick={handleConnect}
-          >
-            Connect to Stackoverflow
-          </button>
+          <div>
+            <button
+              className="w-full py-2 px-4 rounded-lg text-white bg-blue-500 hover:bg-blue-600 items-center text-center"
+              onClick={handleConnect}
+            >
+              Connect to Stackoverflow
+            </button>
+            <Link href={"/claim"}>
+              <p className="text-blue-800 hover:text-blue-400 mt-5 text-sm">
+                Already linked your wallet ?
+              </p>
+            </Link>
+          </div>
         )}
       </div>
     </div>
