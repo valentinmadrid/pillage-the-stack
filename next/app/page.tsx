@@ -9,11 +9,19 @@ import Link from "next/link";
 
 const Home: NextPage = () => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [parsedAccessToken, setParsedAccessToken] = useState<string | null>(
+    null
+  );
   const router = useRouter();
   const searchParams = useSearchParams();
   const [stackUser, setStackUser] = useState<any | null>(null);
 
-  const access_token = parseAccessTokenFromUrl(window.location.href);
+  useEffect(() => {
+    const access_token = parseAccessTokenFromUrl(window.location.href);
+    if (access_token) {
+      setParsedAccessToken(access_token);
+    }
+  }, []);
 
   const wallet = useWallet();
 
@@ -39,19 +47,19 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     const fn = async () => {
-      if (access_token) {
+      if (parsedAccessToken) {
         const stackExchangeKey = process.env.NEXT_PUBLIC_STACKEXCHANGE_KEY;
 
         const userReq = await fetch(
-          `https://api.stackexchange.com/2.3/me?access_token=${access_token}&key=${stackExchangeKey}&site=stackoverflow`
+          `https://api.stackexchange.com/2.3/me?access_token=${parsedAccessToken}&key=${stackExchangeKey}&site=stackoverflow`
         );
         const user = await userReq.json();
         setStackUser(user);
-        setAccessToken(access_token);
+        setAccessToken(parsedAccessToken);
       }
     };
     fn();
-  }, [access_token]);
+  }, [parsedAccessToken]);
 
   const handleLink = async () => {
     const response = await fetch("/api/createuser", {
