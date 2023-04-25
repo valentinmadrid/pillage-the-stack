@@ -11,16 +11,18 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const appKey = process.env.TWITTER_API_KEY as string;
-  console.log(appKey);
+
   const appSecret = process.env.TWITTER_API_SECRET as string;
-  console.log(appSecret);
-  const accessToken = process.env.TWITTER_BEARER_TOKEN as string;
+
+  const accessToken = process.env.TWITTER_ACCESS_TOKEN as string;
+
+  const accessSecret = process.env.TWITTER_ACCESS_SECRET as string;
 
   const twitter = new TwitterApi({
     appKey,
     appSecret,
-    accessToken: "1638913735874998272-0KC5vkDbiZs4ytv6HcLNrUD7VBi6Oz",
-    accessSecret: "PFwrMj3JHoJQSLgZbMmcp5BRU5TlNg3SMf7HGdbb41nZZ",
+    accessToken,
+    accessSecret,
   });
 
   const rwClient = twitter.readWrite;
