@@ -11,7 +11,7 @@ export default async function handler(
 ) {
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL as string,
-    process.env.NEXT_PUBLIC_SUPABASE_KEY as string
+    process.env.PRIVATE_SUPABASE_KEY as string
   );
 
   console.log("HELLO STARTING THIS TEST");
@@ -52,6 +52,7 @@ export default async function handler(
     const { data: add, error } = await supabase.from("profiles").insert([
       {
         stackexchange_id: acceptedOwner[0],
+        total_xp: 0,
       },
     ]);
     if (error) {

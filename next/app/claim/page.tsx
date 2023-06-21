@@ -18,8 +18,7 @@ const Claim: NextPage = () => {
     process.env.NEXT_PUBLIC_SUPABASE_KEY as string
   );
 
-  useEffect(() => {
-    setProfile(null);
+  const fetchUserInfo = async () => {
     if (wallet.publicKey) {
       const fn = async () => {
         const { data: user } = await supabase
@@ -46,6 +45,11 @@ const Claim: NextPage = () => {
 
       fn();
     }
+  };
+
+  useEffect(() => {
+    setProfile(null);
+    fetchUserInfo();
   }, [wallet.publicKey]);
 
   const handleClaim = async () => {
@@ -61,7 +65,9 @@ const Claim: NextPage = () => {
 
     if (response.ok) {
       const data = await response.json();
-      router.push("/confirmed");
+      // wait 1 second
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      fetchUserInfo();
     } else {
       console.error("Error:", response.statusText);
     }
@@ -70,6 +76,7 @@ const Claim: NextPage = () => {
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100">
       <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg">
+        {profile && <h1 className="mb-2">Total XP: {profile.total_xp}</h1>}
         <WalletMultiButtonDynamic
           className="w-full mb-4 py-2 px-4 text-center rounded-lg text-white bg-purple-500 hover:bg-purple-200"
           style={{

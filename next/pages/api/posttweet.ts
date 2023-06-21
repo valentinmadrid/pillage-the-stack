@@ -29,7 +29,7 @@ export default async function handler(
 
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL as string,
-    process.env.NEXT_PUBLIC_SUPABASE_KEY as string
+    process.env.PRIVATE_SUPABASE_KEY as string
   );
 
   const questions = await fetch(
@@ -37,8 +37,10 @@ export default async function handler(
   );
   console.log(questions);
   const questionsJson = await questions.json();
+
   const unansweredQuestions = questionsJson.items.filter(
-    (question: any) => question.answer_count === 0
+    (question: any) =>
+      question.answer_count === 0 && question.closed_date === undefined
   );
 
   const randomQuestion =
@@ -51,6 +53,7 @@ export default async function handler(
       question_url: questionLink,
       claimed: false,
       claimer: null,
+      xp: 10,
     },
   ]);
   if (error) {

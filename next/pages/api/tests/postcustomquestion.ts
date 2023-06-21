@@ -40,6 +40,7 @@ export default async function handler(
       question_url: url,
       claimed: false,
       claimer: null,
+      xp: 10,
     },
   ]);
   if (error) {

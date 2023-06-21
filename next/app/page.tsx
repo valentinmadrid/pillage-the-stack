@@ -15,6 +15,7 @@ const Home: NextPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [stackUser, setStackUser] = useState<any | null>(null);
+  const [accountExists, setAccountExists] = useState<boolean>(false);
 
   useEffect(() => {
     const access_token = parseAccessTokenFromUrl(window.location.href);
@@ -27,7 +28,8 @@ const Home: NextPage = () => {
 
   const handleConnect = () => {
     const clientID = process.env.NEXT_PUBLIC_STACKEXCHANGE_CLIENT_ID || "";
-    const redirectURI = "http://localhost:3000/";
+    const redirectURI = process.env
+      .NEXT_PUBLIC_STACKEXCHANGE_REDIRECT_URI as string;
 
     const authURL = `https://stackoverflow.com/oauth/dialog?client_id=${clientID}&redirect_uri=${redirectURI}`;
     router.push(authURL);
@@ -77,6 +79,7 @@ const Home: NextPage = () => {
       const data = await response.json();
       router.push("/claim");
     } else {
+      setAccountExists(true);
       console.error("Error:", response.statusText);
     }
   };
@@ -105,13 +108,21 @@ const Home: NextPage = () => {
                 backgroundColor: "#5f2eea",
               }}
             />
-
-            <button
-              className="w-full py-2 px-4 rounded-lg text-purple-500 border border-purple-500 hover:text-white hover:bg-purple-500"
-              onClick={handleLink}
-            >
-              Link Accounts
-            </button>
+            {accountExists ? (
+              <div className="text-red-500 text-center">
+                <p>Stackexchange account already linked to a wallet</p>
+                <Link className="text-blue-500" href="claim">
+                  Click here to claim your points
+                </Link>
+              </div>
+            ) : (
+              <button
+                className="w-full py-2 px-4 rounded-lg text-purple-500 border border-purple-500 hover:text-white hover:bg-purple-500"
+                onClick={handleLink}
+              >
+                Link Accounts
+              </button>
+            )}
           </>
         ) : (
           <div>

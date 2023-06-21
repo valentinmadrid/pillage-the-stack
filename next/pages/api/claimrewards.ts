@@ -13,7 +13,7 @@ export default async function handler(
 
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL as string,
-    process.env.NEXT_PUBLIC_SUPABASE_KEY as string
+    process.env.PRIVATE_SUPABASE_KEY as string
   );
 
   const { data: user, error } = await supabase
@@ -55,9 +55,6 @@ export default async function handler(
   }
 
   questions.forEach(async (question) => {
-    // send compressed nft to wallet
-
-    // update claimed to true
     const { error } = await supabase
       .from("posted_questions")
       .update({ claimed: true })

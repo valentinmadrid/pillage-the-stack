@@ -23,12 +23,13 @@ export default async function handler(
   } else if (user && user.items[0].account_id) {
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL as string,
-      process.env.NEXT_PUBLIC_SUPABASE_KEY as string
+      process.env.PRIVATE_SUPABASE_KEY as string
     );
     const { data, error } = await supabase.from("profiles").insert([
       {
         wallet_address: wallet_address,
         stackexchange_id: user.items[0].account_id,
+        total_xp: 0,
       },
     ]);
     if (error) {
@@ -36,6 +37,7 @@ export default async function handler(
         message: error.message,
       });
     }
+    // mint compressed NFT to user
     return res.status(200).json({
       message: `Hello, account with ${wallet_address} has been created!`,
     });
