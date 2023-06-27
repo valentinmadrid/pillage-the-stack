@@ -13,7 +13,6 @@ import {
   // @ts-ignore
   mintTo,
   TOKEN_PROGRAM_ID,
-  Token,
 } from "@solana/spl-token";
 import {
   Connection,
