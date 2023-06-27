@@ -2,5 +2,5 @@
 node_modules/*
 yarn.lock
 package-lock.json
-sdk/*
+sdk/
 .DS_Store
