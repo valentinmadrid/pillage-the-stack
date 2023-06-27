@@ -65,8 +65,8 @@ const Claim: NextPage = () => {
 
     if (response.ok) {
       const data = await response.json();
-      // wait 1 second
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // wait 300 ms
+      await new Promise((resolve) => setTimeout(resolve, 200));
       fetchUserInfo();
     } else {
       console.error("Error:", response.statusText);
