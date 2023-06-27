@@ -1,8 +1,7 @@
 import { PublicKey } from "@solana/web3.js";
 import { createClient } from "@supabase/supabase-js";
 import { NextApiRequest, NextApiResponse } from "next";
-import { createXPUser } from "../../../sdk";
-import { WrapperConnection } from "../../../sdk/readApi/wrapperConnection";
+
 
 interface RequestBody {
   wallet_address: string;
