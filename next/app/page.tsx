@@ -22,7 +22,7 @@ const Home: NextPage = () => {
     if (access_token) {
       setParsedAccessToken(access_token);
     }
-  }, []);
+  });
 
   const wallet = useWallet();
 
@@ -61,7 +61,7 @@ const Home: NextPage = () => {
       }
     };
     fn();
-  }, [parsedAccessToken]);
+  }, [parsedAccessToken, window]);
 
   const handleLink = async () => {
     const response = await fetch("/api/createuser", {

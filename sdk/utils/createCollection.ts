@@ -5,7 +5,16 @@ import {
   createSetCollectionSizeInstruction,
   PROGRAM_ID as TOKEN_METADATA_PROGRAM_ID,
 } from "@metaplex-foundation/mpl-token-metadata";
-import { createMint, createAccount, mintTo, TOKEN_PROGRAM_ID } from "@solana/spl-token";
+import {
+  // @ts-ignore
+  createMint,
+  // @ts-ignore
+  createAccount,
+  // @ts-ignore
+  mintTo,
+  TOKEN_PROGRAM_ID,
+  Token,
+} from "@solana/spl-token";
 import {
   Connection,
   Keypair,
@@ -17,7 +26,7 @@ import {
 export async function createCollection(
   connection: Connection,
   payer: Keypair,
-  metadataV3: CreateMetadataAccountArgsV3,
+  metadataV3: CreateMetadataAccountArgsV3
 ) {
   // create and initialize the SPL token mint
   console.log("Creating the collection's mint...");
@@ -29,7 +38,7 @@ export async function createCollection(
     // freeze authority
     payer.publicKey,
     // decimals - use `0` for NFTs since they are non-fungible
-    0,
+    0
   );
   console.log("Mint address:", mint.toBase58());
 
@@ -39,7 +48,7 @@ export async function createCollection(
     connection,
     payer,
     mint,
-    payer.publicKey,
+    payer.publicKey
     // undefined, undefined,
   );
   console.log("Token account:", tokenAccount.toBase58());
@@ -57,14 +66,18 @@ export async function createCollection(
     // no `multiSigners`
     [],
     undefined,
-    TOKEN_PROGRAM_ID,
+    TOKEN_PROGRAM_ID
   );
   // console.log(explorerURL({ txSignature: mintSig }));
 
   // derive the PDA for the metadata account
   const [metadataAccount, _bump] = PublicKey.findProgramAddressSync(
-    [Buffer.from("metadata", "utf8"), TOKEN_METADATA_PROGRAM_ID.toBuffer(), mint.toBuffer()],
-    TOKEN_METADATA_PROGRAM_ID,
+    [
+      Buffer.from("metadata", "utf8"),
+      TOKEN_METADATA_PROGRAM_ID.toBuffer(),
+      mint.toBuffer(),
+    ],
+    TOKEN_METADATA_PROGRAM_ID
   );
   console.log("Metadata account:", metadataAccount.toBase58());
 
@@ -79,7 +92,7 @@ export async function createCollection(
     },
     {
       createMetadataAccountArgsV3: metadataV3,
-    },
+    }
   );
 
   // derive the PDA for the metadata account
@@ -90,7 +103,7 @@ export async function createCollection(
       mint.toBuffer(),
       Buffer.from("edition", "utf8"),
     ],
-    TOKEN_METADATA_PROGRAM_ID,
+    TOKEN_METADATA_PROGRAM_ID
   );
   console.log("Master edition account:", masterEditionAccount.toBase58());
 
@@ -108,7 +121,7 @@ export async function createCollection(
       createMasterEditionArgs: {
         maxSupply: 0,
       },
-    },
+    }
   );
 
   // create the collection size instruction
@@ -120,7 +133,7 @@ export async function createCollection(
     },
     {
       setCollectionSizeArgs: { size: 50 },
-    },
+    }
   );
 
   try {
@@ -132,10 +145,15 @@ export async function createCollection(
     tx.feePayer = payer.publicKey;
 
     // send the transaction to the cluster
-    const txSignature = await sendAndConfirmTransaction(connection, tx, [payer], {
-      commitment: "confirmed",
-      skipPreflight: true,
-    });
+    const txSignature = await sendAndConfirmTransaction(
+      connection,
+      tx,
+      [payer],
+      {
+        commitment: "confirmed",
+        skipPreflight: true,
+      }
+    );
 
     console.log("\nCollection successfully created!");
     console.log("your tx sig", txSignature);
