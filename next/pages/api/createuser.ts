@@ -63,6 +63,7 @@ export default async function handler(
     };
     const CNFT_RPC_URL = process.env.HELIUS_RPC_URL as string;
     const wrapperConnection = new WrapperConnection(CNFT_RPC_URL, "confirmed");
+    // @ts-ignore
     const byteArray = process.env.REWARD_PRIVATE_KEY.split(",").map(
       (num) => +num
     );
