@@ -97,7 +97,8 @@ const Home: NextPage = () => {
               />
               <span>{stackUser.items[0].display_name}</span>
             </div>
-            <WalletMultiButtonDynamic
+
+            {/* <WalletMultiButtonDynamic
               className="w-full mb-4 py-2 px-4 text-center rounded-lg text-white bg-purple-500 hover:bg-purple-600"
               style={{
                 fontWeight: "normal",
@@ -107,7 +108,7 @@ const Home: NextPage = () => {
                 minWidth: "100%",
                 backgroundColor: "#5f2eea",
               }}
-            />
+            /> */}
             {accountExists ? (
               <div className="text-red-500 text-center">
                 <p>Stackexchange account already linked to a wallet</p>
