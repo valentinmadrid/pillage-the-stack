@@ -65,7 +65,7 @@ export default async function handler(
       console.log(`Posting question ID ${questionId}...`);
       // Post to Twitter
       const tweet = await rwClient.v2.tweet(
-        `Gm Solana devs,\nThere is a new question on Stackexchange:\n"${question.title}"\n${question.link}`
+        `Gm Solana devs, there is a new question on Stackexchange:\n\n"${question.title}"\n${question.link}`
       );
 
       if (!tweet) {
