@@ -90,6 +90,8 @@ const Claim: NextPage = () => {
             backgroundColor: "#5f2eea",
           }}
         />
+        <p>Your account is activated.</p>
+        <p className="font-bold">Come back soon for: [redacted] 👀</p>
 
         {wallet.publicKey ? (
           profile ? (

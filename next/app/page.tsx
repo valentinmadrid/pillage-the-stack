@@ -139,7 +139,7 @@ const Home: NextPage = () => {
               </div>
             ) : (
               <button
-                className="w-full py-2 px-4 rounded-lg text-purple-500 border border-purple-500 hover:text-white hover:bg-purple-500"
+                className="w-full py-2 px-4 rounded-lg text-purple-500 border border-purple-500 hover:text-white hover:bg-purple-500 mt-2"
                 onClick={handleLink}
               >
                 Link Accounts
