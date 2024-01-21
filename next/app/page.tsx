@@ -6,6 +6,7 @@ import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { WalletMultiButtonDynamic } from "@/src/components/WalletMultiButton";
 import Link from "next/link";
+import bs58 from "bs58";
 
 const Home: NextPage = () => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
@@ -64,6 +65,13 @@ const Home: NextPage = () => {
   }, [parsedAccessToken, window]);
 
   const handleLink = async () => {
+    const message = new TextEncoder().encode(
+      "Authenicate your wallet for Pillage the Stack"
+    );
+    const messagesignature = await wallet.signMessage!(
+      Uint8Array.from(message)
+    );
+    const messageSignatureString = bs58.encode(messagesignature);
     const response = await fetch("/api/createuser", {
       method: "POST",
       headers: {
@@ -72,6 +80,7 @@ const Home: NextPage = () => {
       body: JSON.stringify({
         wallet_address: wallet.publicKey?.toBase58(),
         access_token: accessToken,
+        message_signature: messageSignatureString,
       }),
     });
 
@@ -86,7 +95,16 @@ const Home: NextPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100">
+      <h1 className="text-4xl font-bold mb-1">Pillage the Stack</h1>
+      <p className="mb-2">
+        Link your Solana Wallet to your Stackexchange account.
+      </p>
       <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg">
+        {accessToken && !stackUser.items && (
+          <div className="mb-4">
+            <p>Loading...</p>
+          </div>
+        )}
         {accessToken && stackUser.items ? (
           <>
             <div className="mb-4 flex items-center">
@@ -97,8 +115,8 @@ const Home: NextPage = () => {
               />
               <span>{stackUser.items[0].display_name}</span>
             </div>
-
-            {/* <WalletMultiButtonDynamic
+            {/* @ts-ignore */}
+            <WalletMultiButtonDynamic
               className="w-full mb-4 py-2 px-4 text-center rounded-lg text-white bg-purple-500 hover:bg-purple-600"
               style={{
                 fontWeight: "normal",
@@ -108,10 +126,13 @@ const Home: NextPage = () => {
                 minWidth: "100%",
                 backgroundColor: "#5f2eea",
               }}
-            /> */}
+            />
             {accountExists ? (
               <div className="text-red-500 text-center">
-                <p>Stackexchange account already linked to a wallet</p>
+                <p>
+                  Failed to connect Stack Exchange, your account may already be
+                  linked.
+                </p>
                 <Link className="text-blue-500" href="claim">
                   Click here to claim your points
                 </Link>

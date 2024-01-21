@@ -78,7 +78,8 @@ const Claim: NextPage = () => {
       <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg">
         {profile && <h1 className="mb-2">Total XP: {profile.total_xp}</h1>}
 
-        {/* <WalletMultiButtonDynamic
+        {/* @ts-ignore */}
+        <WalletMultiButtonDynamic
           className="w-full mb-4 py-2 px-4 text-center rounded-lg text-white bg-purple-500 hover:bg-purple-200"
           style={{
             fontWeight: "normal",
@@ -88,7 +89,7 @@ const Claim: NextPage = () => {
             minWidth: "100%",
             backgroundColor: "#5f2eea",
           }}
-        /> */}
+        />
 
         {wallet.publicKey ? (
           profile ? (
