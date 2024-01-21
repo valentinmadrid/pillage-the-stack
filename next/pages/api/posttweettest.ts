@@ -63,14 +63,14 @@ export default async function handler(
       }
 
       console.log(`Posting question ID ${questionId}...`);
-      //   // Post to Twitter
-      //   const tweet = await rwClient.v2.tweet(
-      //     `Gm Solana devs,\nThere is a new question on Stackexchange:\n"${question.title}"\n${question.link}`
-      //   );
+      // Post to Twitter
+      const tweet = await rwClient.v2.tweet(
+        `Gm Solana devs,\nThere is a new question on Stackexchange:\n"${question.title}"\n${question.link}`
+      );
 
-      //   if (!tweet) {
-      //     throw new Error("Could not post tweet");
-      //   }
+      if (!tweet) {
+        throw new Error("Could not post tweet");
+      }
 
       // Save to Supabase
       const { error: insertError } = await supabase
